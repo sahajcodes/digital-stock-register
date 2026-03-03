@@ -295,36 +295,39 @@ main section:nth-child(3) h3 {
    TABLE STYLING (Excel-like)
    ========================== */
 
-.modern-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
-  font-size: 14px;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    font-size: 15px;
 }
 
-.modern-table thead {
-  background: #1f3c88;
-  color: white;
+thead {
+    background: linear-gradient(90deg, #1e3a8a, #2563eb);
+    color: white;
 }
 
-.modern-table th,
-.modern-table td {
-  padding: 12px 15px;
-  text-align: left;
+thead th {
+    padding: 15px;
+    font-weight: 600;
+    text-align: left;
 }
 
-.modern-table tbody tr {
-  transition: 0.2s ease;
+tbody tr {
+    transition: 0.3s ease;
 }
 
-.modern-table tbody tr:hover {
-  background: #f4f7ff;
-  transform: scale(1.01);
+tbody tr:hover {
+    background-color: #e0e7ff;
+    transform: scale(1.01);
 }
 
-.modern-table tbody tr:nth-child(even) {
-  background: #fafafa;
+tbody td {
+    padding: 14px;
 }
+
 
 
 
@@ -676,75 +679,16 @@ tr {
 }
 
 .export-btn {
-  background: linear-gradient(135deg, #1f3c88, #4a6cf7);
+  background: #023062;
   color: white;
   border: none;
-  padding: 8px 18px;
-  border-radius: 30px;
+  padding: 8px 16px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
-  transition: 0.3s ease;
-  box-shadow: 0 4px 12px rgba(74,108,247,0.3);
+  font-size: 14px;
+  transition: 0.2s ease;
 }
 
 .export-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(74,108,247,0.4);
-}
-/* MAIN CONTENT SPACING */
-main {
-  padding: 40px 60px;
-}
-
-/* SECTION CARD STYLE */
-section {
-  background: #ffffff;
-  padding: 25px 30px;
-  border-radius: 16px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
-  margin-bottom: 30px;
-}
-
-/* Section Titles */
-.section-title {
-  font-size: 20px;
-  font-weight: 600;
-}
-input, select {
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  transition: 0.2s ease;
-}
-
-input:focus, select:focus {
-  border-color: #4a6cf7;
-  box-shadow: 0 0 0 2px rgba(74,108,247,0.2);
-  outline: none;
-}
-.main-header {
-  background: linear-gradient(135deg, #c1e9f3, #d4eaf5);
-  color: white;
-  padding: 15px 40px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-}
-
-.site-title {
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.admin-btn {
-  background: rgb(8, 36, 130);
-  color: #f4f5f9;
-  border: none;
-  padding: 6px 16px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.admin-btn:hover {
-  background: #f1f1f1;
+  background: #05366c;
 }
