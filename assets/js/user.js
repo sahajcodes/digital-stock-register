@@ -24,7 +24,12 @@ onSnapshot(collection(db, "stock"), (snapshot) => {
       <td>${data.labName || "-"}</td>
       <td>${data.equipmentName || "-"}</td>
       <td>${data.quantity ?? "-"}</td>
-      <td>${Number(data.quantity) === 0 ? "Not Available" : "Available"}</td>
+      <td>
+  ${Number(data.quantity) === 0 
+    ? `<span class="status-not">Not Available</span>`
+    : `<span class="status-available">Available</span>`
+   }
+   </td>
     `;
 
     tableBody.appendChild(row);
@@ -79,7 +84,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const selectedLab = labFilter.value.trim();
     const selectedType = typeFilter.value.trim();
     const searchValue = searchInput.value.trim().toLowerCase();
-   console.log("Selected Type:", selectedType);
     const rows = document.querySelectorAll("tbody tr");
 
     let visibleCount = 0;
