@@ -330,3 +330,16 @@ onAuthStateChanged(auth, (user) => {
     window.location.href = "../user/index.html";
   }
 });
+const scrollBtn = document.getElementById("scrollToAddBtn");
+
+if (scrollBtn) {
+  scrollBtn.addEventListener("click", () => {
+    const addSection = document.getElementById("addStockForm");
+    
+    if (addSection) {
+      addSection.scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+  });
+}
