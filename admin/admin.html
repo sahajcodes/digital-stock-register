@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Stock Register - Admin Panel</title>
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo-section">
+                <img src="../assets/images/logo.png" alt="Logo 1" class="logo">
+                <img src="../assets/images/logo2.png" alt="Logo 2" class="logo">
+            </div>
+            <h1 class="header-title">Digital Stock Register - Admin Panel</h1>
+           <button type="button" id="logoutBtn" class="logout-btn">Logout</button>
+
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="admin-form-section">
+            <h2 class="section-title">Add New Stock</h2>
+            <form id="addStockForm" class="stock-form" >
+                <div class="form-group">
+                    <label for="labName">Lab Name</label>
+                    <select id="labName" class="form-control" required>
+                        <option value="">Select Lab</option>
+                        <option value="Physics Lab">Physics Lab</option>
+                        <option value="Chemistry Lab">Chemistry Lab</option>
+                        <option value="BEE Lab">BEE Lab</option>
+                        <option value="English Lab">English Lab</option>
+                        <option value="PPS Lab">PPS Lab</option>
+                        <option value="Workshop">Workshop</option>
+                    </select>
+                </div>
+                <div class="form-group" id="itemTypeGroup" style="display:none;">
+               <label for="itemType">Item Type</label>
+               <select id="itemType" class="form-control">
+               <option value="">Select Item Type</option>
+               <option value="Consumable">Consumable</option>
+               <option value="Non-Consumable">Non-Consumable</option>
+              </select>
+            </div>
+
+
+
+                <div class="form-group">
+                    <label for="equipmentName">Equipment/Chemical Name</label>
+                    <input type="text" id="equipmentName" class="form-control" placeholder="Enter equipment name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="text" id="quantity" class="form-control" placeholder="Enter quantity" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="billNumber">Bill Number</label>
+                    <input type="text" id="billNumber" class="form-control" placeholder="Enter bill number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="billDate">Bill Date</label>
+                    <input type="date" id="billDate" class="form-control" required>
+                </div>
+                                                                                               
+                <div class="form-group">
+                    <label for="broken/consumed">Broken / Consumed</label>
+                    <input type="text" id="broken/consumed" class="form-control" required>
+                </div>   
+
+                <button type="submit" id="addStockBtn" class="btn-primary">Add Stock</button>
+            </form>
+        </section>
+
+        <section class="stock-table-section">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 class="section-title">Stock Records</h2>
+                <button id="exportExcelAdmin" class="export-btn">Export Excel</button>
+            </div>
+            <div class="filter-section">
+              <label for="filterLab">Filter by Lab:</label>
+              <select id="filterLab" class="filter-dropdown">
+                 <option value="All" selected>All Labs</option>
+                 <option value="Physics Lab">Physics Lab</option>
+                 <option value="Chemistry Lab">Chemistry Lab</option>
+                 <option value="BEE Lab">BEE Lab</option>
+                 <option value="English Lab">English Lab</option>
+                 <option value="PPS Lab">PPS Lab</option>
+                 <option value="Workshop">Workshop</option>
+                 </select>
+                </div>
+                <div id="filterItemTypeGroup" style="display:none; margin-top:10px;">
+                  <label for="filterItemType">Filter by Item Type:</label>
+                 <select id="filterItemType" class="filter-dropdown">
+                  <option value="All">All Types</option>
+                  <option value="Consumable">Consumable</option>
+                  <option value="Non-Consumable">Non-Consumable</option>
+                </select>
+              </div>
+              <input type="text" id="searchInput" placeholder="Search equipment..." class="search-bar">
+             <div class="stats">
+              <div class="stat-card">
+                <h3 id="totalItems">0</h3>
+                <p>Total Items</p>
+              </div>
+              <div class="stat-card">
+                <h3 id="availableItems">0</h3>
+                <p>Available</p>
+              </div>
+              <div class="stat-card">
+                <h3 id="notAvailableItems">0</h3>
+                <p>Not Available</p>
+              </div>
+            </div>
+            <div class="table-container">
+                <table id="stockTable" class="stock-table">
+                    <thead>
+                        <tr>
+                            <th>Lab Name</th>
+                            <th>Equipment/Chemical Name</th>
+                            <th>Quantity</th>
+                            <th>Broken / Consumed</th>
+                            <th>Bill Number</th>
+                            <th>Bill Date</th>
+                            <th>Last Updated</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stockTableBody">
+                        <!-- Stock records will be populated here dynamically -->
+                    </tbody>
+                    <p id="noResults" style="display:none; text-align:center; margin-top:15px; opacity:0.7;">
+                       No records found
+                      </p>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    
+<!-- EDIT MODAL -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <h2>Edit Stock</h2>
+
+    <input type="number" id="editQuantity" placeholder="Enter Quantity" />
+
+    <div class="modal-buttons">
+      <button id="saveEdit">Save</button>
+      <button id="cancelEdit">Cancel</button>
+    </div>
+</div>
+
+  </div>
+</div>
+<div id="logoutPopup" class="popup">
+  <div class="popup-content">
+    <div class="checkmark">✔</div>
+    <h2 class="popup-title">Logged Out Successfully</h2>
+  </div>
+</div>
+<!-- DELETE CONFIRMATION POPUP -->
+<div id="deleteConfirmPopup" class="popup">
+  <div class="popup-content">
+    <h2 class="popup-title">Are you sure?</h2>
+    <p class="popup-sub">This item will be permanently deleted.</p>
+
+    <div style="margin-top:20px; display:flex; justify-content:space-between;">
+      <button id="confirmDeleteBtn" style="background:#dc3545; color:white; padding:8px 18px; border:none; border-radius:8px;">Delete</button>
+      <button id="cancelDeleteBtn" style="background:#6c757d; color:white; padding:8px 18px; border:none; border-radius:8px;">Cancel</button>
+    </div>
+  </div>
+</div>
+<!-- DELETE SUCCESS POPUP -->
+<div id="deleteSuccessPopup" class="popup">
+  <div class="popup-content">
+    <div class="checkmark">✔</div>
+    <h2 class="popup-title">Item Deleted Successfully</h2>
+  </div>
+</div>
+
+<div id="addSuccessPopup" class="popup">
+  <div class="popup-content">
+    <div class="checkmark">✔</div>
+    <h2 class="popup-title">Item Added Successfully</h2>
+  </div>
+</div>
+
+<div id="errorPopup" class="popup">
+  <div class="popup-content error-box">
+    <div class="error-icon">✖</div>
+    <h2 class="popup-title">Wrong Email or Password</h2>
+    <p class="popup-sub">Please try again</p>
+  </div>
+</div>
+<button id="scrollToAddBtn" class="floating-add-btn">+</button>
+<script type="module" src="../assets/js/admin.js"></script>
+</body>
+</html>

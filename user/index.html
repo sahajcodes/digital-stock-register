@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Stock Register - College Laboratory Management</title>
+
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- Header -->
+<header class="main-header">
+
+    <div class="logo-container">
+        <img src="../assets/images/logo.png" alt="Logo 1" class="logo">
+        <img src="../assets/images/logo2.png" alt="Logo 2" class="logo">
+    </div>
+
+    <h1 class="site-title">Digital Stock Register</h1>
+    <button class="admin-btn">Admin Login</button>
+
+</header>
+
+<main>
+
+<!-- Hero -->
+<section>
+    <h2>Laboratory Stock Management System</h2>
+    <p>Efficiently track and manage laboratory equipment, chemicals, and supplies across all college laboratories</p>
+</section>
+
+<!-- Controls -->
+<section class="controls-section">
+<h3>Select Laboratory and Search Items</h3>
+
+<div class="controls-row">
+
+    <!-- Search -->
+    <div class="control-group">
+        <label for="search-item">Search Item:</label>
+        <input type="text" id="search-item" placeholder="Enter item name...">
+    </div>
+
+    <!-- Lab Dropdown -->
+    <div class="control-group">
+        <label for="labFilter">Choose Lab:</label>
+        <select id="labFilter">
+            <option value="All">All Labs</option>
+            <option value="English Lab">English Lab</option>
+            <option value="PPS Lab">PPS Lab</option>
+            <option value="Chemistry Lab">Chemistry Lab</option>
+            <option value="Physics Lab">Physics Lab</option>
+            <option value="BEE Lab">BEE Lab</option>
+            <option value="Workshop">Workshop</option>
+        </select>
+    </div>
+
+    <!-- Item Type Dropdown (Hidden Initially) -->
+    <div class="control-group" id="userItemTypeGroup" style="display:none;">
+        <label for="userItemType">Item Type:</label>
+        <select id="userItemType">
+            <option value="All">All Types</option>
+            <option value="Consumable">Consumable</option>
+            <option value="Non-Consumable">Non-Consumable</option>
+        </select>
+    </div>
+
+</div>
+</section>
+
+<!-- Table -->
+<section>
+<div class="table-header">
+  <h3 class="section-title">Stock Records</h3>
+  <button id="exportCsvBtn" class="export-btn">Export</button>
+</div>
+<table id="stockTable" class="modern-table">
+    <thead>
+        <tr>
+            <th>Lab</th>
+            <th>Equipment/Chemical Name</th>
+            <th>Quantity</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr id="emptyRow" style="display:none;">
+            <td colspan="4" style="text-align:center;">No items found</td>
+        </tr>
+    </tbody>
+
+</table>
+</section>
+
+</main>
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal" style="display:none;">
+<div class="modal-content">
+    <h3>Admin Login</h3>
+    <input type="email" id="adminEmail" placeholder="Enter Email">
+    <input type="password" id="adminPassword" placeholder="Enter Password">
+    <button id="loginBtn">Login</button>
+    <button id="closeLogin">Cancel</button>
+</div>
+</div>
+
+<!-- Error Popup -->
+<div id="errorPopup" class="success-popup">
+<div class="success-box" style="background:#fff;">
+    <div class="checkmark" style="color:red;">✖</div>
+    <h3 style="color:red;">Wrong Email or Password</h3>
+    <p>Please try again.</p>
+</div>
+</div>
+
+<!-- Success Popup -->
+<div id="successPopup" class="success-popup">
+<div class="success-box">
+    <div class="checkmark">✔</div>
+    <h3>Login Successful</h3>
+    <p>Welcome Admin!</p>
+</div>
+</div>
+
+<footer>
+<p>&copy; College Laboratory Management System. All rights reserved.</p>
+<p>Contact: lab-admin@college.edu | Phone: +91-XXXXXXXXXX</p>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script type="module" src="../assets/js/firebase.js"></script>
+<script type="module" src="../assets/js/user.js"></script>
+
+</body>
+</html>
