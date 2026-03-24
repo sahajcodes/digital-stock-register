@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Stock Register - Admin Panel</title>
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+
+    <!-- ═══════════ HEADER ═══════════ -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo-section">
+                <img src="../assets/images/logo.png" alt="Logo 1" class="logo">
+                <img src="../assets/images/logo2.png" alt="Logo 2" class="logo">
+            </div>
+            <h1 class="header-title">Digital Stock Register - Admin Panel</h1>
+            <button type="button" id="logoutBtn" class="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <!-- ═══════════ MAIN CONTENT ═══════════ -->
+    <main class="main-content">
+
+        <!-- ─── ADD STOCK FORM SECTION ─── -->
+        <section class="admin-form-section">
+            <h2 class="section-title">Add New Stock</h2>
+
+            <form id="addStockForm" class="stock-form">
+
+                <div class="form-group">
+                    <label for="labName">Lab Name</label>
+                    <select id="labName" class="form-control" required>
+                        <option value="">Select Lab</option>
+                        <option value="Physics Lab">Physics Lab</option>
+                        <option value="Chemistry Lab">Chemistry Lab</option>
+                        <option value="BEE Lab">BEE Lab</option>
+                        <option value="English Lab">English Lab</option>
+                        <option value="PPS Lab">PPS Lab</option>
+                        <option value="Workshop">Workshop</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="itemTypeGroup">
+                    <label for="itemType">Item Type</label>
+                    <select id="itemType" class="form-control">
+                        <option value="">Select Item Type</option>
+                        <option value="Consumable">Consumable</option>
+                        <option value="Non-Consumable">Non-Consumable</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="equipmentName">Equipment / Chemical Name</label>
+                    <input type="text" id="equipmentName" class="form-control" placeholder="Enter equipment or chemical name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" id="quantity" class="form-control" placeholder="Enter quantity" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="billNumber">Bill Number</label>
+                    <input type="text" id="billNumber" class="form-control" placeholder="Enter bill number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="billDate">Bill Date</label>
+                    <input type="date" id="billDate" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="brokenConsumed">Broken / Consumed</label>
+                    <input type="number" id="brokenConsumed" class="form-control" placeholder="Enter broken / consumed count" min="0" required>
+                </div>
+
+                <!-- Full-width centered submit button -->
+                <div class="form-group form-submit-row" style="grid-column: 1 / -1; display: flex; justify-content: center;">
+                    <button type="submit" id="addStockBtn" class="btn-primary" style="width: 100%;">Add Stock</button>
+                </div>
+
+            </form>
+        </section>
+
+        <!-- ─── STOCK RECORDS SECTION ─── -->
+        <section class="stock-table-section">
+
+            <h2 class="section-title">Stock Records</h2>
+
+            <!--
+                TOP CONTROLS ROW
+                [ Search Bar ]  [ Filter Dropdowns ]  [ Export Button ]
+            -->
+            <div class="top-controls">
+
+                <!-- LEFT: Search Input -->
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="search-bar" placeholder="Search equipment...">
+                </div>
+
+                <!-- CENTER: Filter Dropdowns -->
+                <div class="filter-container">
+
+                    <div class="filter-group">
+                        <label for="filterLab">Filter by Lab:</label>
+                        <select id="filterLab" class="filter-dropdown">
+                            <option value="-">Select Lab</option>
+                            <option value="Physics Lab">Physics Lab</option>
+                            <option value="Chemistry Lab">Chemistry Lab</option>
+                            <option value="BEE Lab">BEE Lab</option>
+                            <option value="English Lab">English Lab</option>
+                            <option value="PPS Lab">PPS Lab</option>
+                            <option value="Workshop">Workshop</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group" id="filterItemTypeGroup">
+                        <label for="filterItemType">Filter by Item Type:</label>
+                        <select id="filterItemType" class="filter-dropdown">
+                            <option value="All">All Types</option>
+                            <option value="Consumable">Consumable</option>
+                            <option value="Non-Consumable">Non-Consumable</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT: Export Button -->
+                <div class="export-container">
+                    <button type="button" id="exportExcelAdmin" class="export-btn">Export Excel</button>
+                </div>
+
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats">
+                <div class="stat-card">
+                    <h3 id="totalItems">0</h3>
+                    <p>Total Items</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="availableItems">0</h3>
+                    <p>Available</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="notAvailableItems">0</h3>
+                    <p>Not Available</p>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-container">
+                <table id="stockTable" class="stock-table">
+                    <thead>
+                        <tr>
+                            <th>Lab Name</th>
+                            <th>Equipment / Chemical Name</th>
+                            <th>Quantity</th>
+                            <th>Broken / Consumed</th>
+                            <th>Bill Number</th>
+                            <th>Bill Date</th>
+                            <th>Status</th>
+                            <th>Last Updated</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stockTableBody">
+                        <!-- Rows populated dynamically by admin.js -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- No results message — outside the table -->
+            <p id="noResults" class="no-results-msg">No records found.</p>
+
+        </section>
+    </main>
+
+    <!-- ═══════════ EDIT MODAL ═══════════ -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h2>Edit Stock Item</h2>
+
+            <div class="form-group">
+                <label for="editQuantity">Quantity</label>
+                <input type="number" id="editQuantity" class="form-control" placeholder="Enter quantity" min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="editBrokenConsumed">Broken / Consumed</label>
+                <input type="number" id="editBrokenConsumed" class="form-control" placeholder="Enter broken / consumed count" min="0">
+            </div>
+
+            <div class="modal-buttons">
+                <button type="button" id="saveEdit">Save</button>
+                <button type="button" id="cancelEdit">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════ LOGOUT POPUP ═══════════ -->
+    <div id="logoutPopup" class="popup">
+        <div class="popup-content">
+            <div class="checkmark">✔</div>
+            <h2 class="popup-title">Logged Out Successfully</h2>
+        </div>
+    </div>
+
+    <!-- ═══════════ DELETE CONFIRM POPUP ═══════════ -->
+    <div id="deleteConfirmPopup" class="popup">
+        <div class="popup-content">
+            <h2 class="popup-title">Are you sure?</h2>
+            <p class="popup-sub">This item will be permanently deleted.</p>
+            <div class="popup-actions">
+                <button type="button" id="confirmDeleteBtn" class="btn-danger">Delete</button>
+                <button type="button" id="cancelDeleteBtn" class="btn-neutral">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════ DELETE SUCCESS POPUP ═══════════ -->
+    <div id="deleteSuccessPopup" class="popup">
+        <div class="popup-content">
+            <div class="checkmark">✔</div>
+            <h2 class="popup-title">Item Deleted Successfully</h2>
+        </div>
+    </div>
+
+    <!-- ═══════════ ADD SUCCESS POPUP ═══════════ -->
+    <div id="addSuccessPopup" class="popup">
+        <div class="popup-content">
+            <div class="checkmark">✔</div>
+            <h2 class="popup-title">Item Added Successfully</h2>
+        </div>
+    </div>
+
+    <!-- ═══════════ ERROR POPUP ═══════════ -->
+    <div id="errorPopup" class="popup">
+        <div class="popup-content error-box">
+            <div class="error-icon">✖</div>
+            <h2 class="popup-title">Wrong Email or Password</h2>
+            <p class="popup-sub">Please try again</p>
+        </div>
+    </div>
+
+    <!-- ═══════════ FLOATING BUTTON ═══════════ -->
+    <button type="button" id="scrollToAddBtn" class="floating-add-btn">+</button>
+
+    <script type="module" src="../assets/js/admin.js"></script>
+</body>
+</html>
