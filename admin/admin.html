@@ -6,9 +6,10 @@
     <title>Digital Stock Register - Admin Panel</title>
     <link rel="stylesheet" href="admin.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
 </head>
 <body>
+
+    <!-- ═══════════ HEADER ═══════════ -->
     <header class="header">
         <div class="header-container">
             <div class="logo-section">
@@ -16,15 +17,19 @@
                 <img src="../assets/images/logo2.png" alt="Logo 2" class="logo">
             </div>
             <h1 class="header-title">Digital Stock Register - Admin Panel</h1>
-           <button type="button" id="logoutBtn" class="logout-btn">Logout</button>
-
+            <button type="button" id="logoutBtn" class="logout-btn">Logout</button>
         </div>
     </header>
 
+    <!-- ═══════════ MAIN CONTENT ═══════════ -->
     <main class="main-content">
+
+        <!-- ─── ADD STOCK FORM SECTION ─── -->
         <section class="admin-form-section">
             <h2 class="section-title">Add New Stock</h2>
-            <form id="addStockForm" class="stock-form" >
+
+            <form id="addStockForm" class="stock-form">
+
                 <div class="form-group">
                     <label for="labName">Lab Name</label>
                     <select id="labName" class="form-control" required>
@@ -37,20 +42,19 @@
                         <option value="Workshop">Workshop</option>
                     </select>
                 </div>
-                <div class="form-group" id="itemTypeGroup" style="display:none;">
-               <label for="itemType">Item Type</label>
-               <select id="itemType" class="form-control">
-               <option value="">Select Item Type</option>
-               <option value="Consumable">Consumable</option>
-               <option value="Non-Consumable">Non-Consumable</option>
-              </select>
-            </div>
 
-
+                <div class="form-group" id="itemTypeGroup">
+                    <label for="itemType">Item Type</label>
+                    <select id="itemType" class="form-control">
+                        <option value="">Select Item Type</option>
+                        <option value="Consumable">Consumable</option>
+                        <option value="Non-Consumable">Non-Consumable</option>
+                    </select>
+                </div>
 
                 <div class="form-group">
-                    <label for="equipmentName">Equipment/Chemical Name</label>
-                    <input type="text" id="equipmentName" class="form-control" placeholder="Enter equipment name" required>
+                    <label for="equipmentName">Equipment / Chemical Name</label>
+                    <input type="text" id="equipmentName" class="form-control" placeholder="Enter equipment or chemical name" required>
                 </div>
 
                 <div class="form-group">
@@ -67,139 +71,184 @@
                     <label for="billDate">Bill Date</label>
                     <input type="date" id="billDate" class="form-control" required>
                 </div>
-                                                                                               
-                <div class="form-group">
-                    <label for="broken/consumed">Broken / Consumed</label>
-                    <input type="text" id="broken/consumed" class="form-control" required>
-                </div>   
 
-                <button type="submit" id="addStockBtn" class="btn-primary">Add Stock</button>
+                <div class="form-group">
+                    <label for="brokenConsumed">Broken / Consumed</label>
+                    <input type="text" id="brokenConsumed" class="form-control" placeholder="Enter broken / consumed count" min="0" required>
+                </div>
+
+                <!-- Full-width centered submit button -->
+                <div class="form-group form-submit-row" style="grid-column: 1 / -1; display: flex; justify-content: center;">
+                    <button type="submit" id="addStockBtn" class="btn-primary" style="width: 100%;">Add Stock</button>
+                </div>
+
             </form>
         </section>
 
+        <!-- ─── STOCK RECORDS SECTION ─── -->
         <section class="stock-table-section">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h2 class="section-title">Stock Records</h2>
-                <button id="exportExcelAdmin" class="export-btn">Export Excel</button>
-            </div>
-            <div class="filter-section">
-              <label for="filterLab">Filter by Lab:</label>
-              <select id="filterLab" class="filter-dropdown">
-                 <option value="All" selected>All Labs</option>
-                 <option value="Physics Lab">Physics Lab</option>
-                 <option value="Chemistry Lab">Chemistry Lab</option>
-                 <option value="BEE Lab">BEE Lab</option>
-                 <option value="English Lab">English Lab</option>
-                 <option value="PPS Lab">PPS Lab</option>
-                 <option value="Workshop">Workshop</option>
-                 </select>
+
+            <h2 class="section-title">Stock Records</h2>
+
+            <!--
+                TOP CONTROLS ROW
+                [ Search Bar ]  [ Filter Dropdowns ]  [ Export Button ]
+            -->
+            <div class="top-controls">
+
+                <!-- LEFT: Search Input -->
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="search-bar" placeholder="Search equipment...">
                 </div>
-                <div id="filterItemTypeGroup" style="display:none; margin-top:10px;">
-                  <label for="filterItemType">Filter by Item Type:</label>
-                 <select id="filterItemType" class="filter-dropdown">
-                  <option value="All">All Types</option>
-                  <option value="Consumable">Consumable</option>
-                  <option value="Non-Consumable">Non-Consumable</option>
-                </select>
-              </div>
-              <input type="text" id="searchInput" placeholder="Search equipment..." class="search-bar">
-             <div class="stats">
-              <div class="stat-card">
-                <h3 id="totalItems">0</h3>
-                <p>Total Items</p>
-              </div>
-              <div class="stat-card">
-                <h3 id="availableItems">0</h3>
-                <p>Available</p>
-              </div>
-              <div class="stat-card">
-                <h3 id="notAvailableItems">0</h3>
-                <p>Not Available</p>
-              </div>
+
+                <!-- CENTER: Filter Dropdowns -->
+                <div class="filter-container">
+
+                    <div class="filter-group">
+                        <label for="filterLab">Filter by Lab:</label>
+                        <select id="filterLab" class="filter-dropdown">
+                            <option value="-">Select Lab</option>
+                            <option value="Physics Lab">Physics Lab</option>
+                            <option value="Chemistry Lab">Chemistry Lab</option>
+                            <option value="BEE Lab">BEE Lab</option>
+                            <option value="English Lab">English Lab</option>
+                            <option value="PPS Lab">PPS Lab</option>
+                            <option value="Workshop">Workshop</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group" id="filterItemTypeGroup">
+                        <label for="filterItemType">Filter by Item Type:</label>
+                        <select id="filterItemType" class="filter-dropdown">
+                            <option value="All">All Types</option>
+                            <option value="Consumable">Consumable</option>
+                            <option value="Non-Consumable">Non-Consumable</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT: Export Button -->
+                <div class="export-container">
+                    <button type="button" id="exportExcelAdmin" class="export-btn">Export Excel</button>
+                </div>
+
             </div>
+
+            <!-- Stats Cards -->
+            <div class="stats">
+                <div class="stat-card">
+                    <h3 id="totalItems">0</h3>
+                    <p>Total Items</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="availableItems">0</h3>
+                    <p>Available</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="notAvailableItems">0</h3>
+                    <p>Not Available</p>
+                </div>
+            </div>
+
+            <!-- Table -->
             <div class="table-container">
                 <table id="stockTable" class="stock-table">
                     <thead>
                         <tr>
                             <th>Lab Name</th>
-                            <th>Equipment/Chemical Name</th>
+                            <th>Equipment / Chemical Name</th>
                             <th>Quantity</th>
                             <th>Broken / Consumed</th>
                             <th>Bill Number</th>
                             <th>Bill Date</th>
-                            <th>Last Updated</th>
                             <th>Status</th>
+                            <th>Last Updated</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="stockTableBody">
-                        <!-- Stock records will be populated here dynamically -->
+                        <!-- Rows populated dynamically by admin.js -->
                     </tbody>
-                    <p id="noResults" style="display:none; text-align:center; margin-top:15px; opacity:0.7;">
-                       No records found
-                      </p>
                 </table>
             </div>
+
+            <!-- No results message — outside the table -->
+            <p id="noResults" class="no-results-msg">No records found.</p>
+
         </section>
     </main>
 
-    
-<!-- EDIT MODAL -->
-<div id="editModal" class="modal">
-  <div class="modal-content">
-    <h2>Edit Stock</h2>
+    <!-- ═══════════ EDIT MODAL ═══════════ -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h2>Edit Stock Item</h2>
 
-    <input type="number" id="editQuantity" placeholder="Enter Quantity" />
+            <div class="form-group">
+                <label for="editQuantity">Quantity</label>
+                <input type="text" id="editQuantity" class="form-control" placeholder="Enter quantity" min="0">
+            </div>
 
-    <div class="modal-buttons">
-      <button id="saveEdit">Save</button>
-      <button id="cancelEdit">Cancel</button>
+            <div class="form-group">
+                <label for="editBrokenConsumed">Broken / Consumed</label>
+                <input type="text" id="editBrokenConsumed" class="form-control" placeholder="Enter broken / consumed count" min="0">
+            </div>
+
+            <div class="modal-buttons">
+                <button type="button" id="saveEdit">Save</button>
+                <button type="button" id="cancelEdit">Cancel</button>
+            </div>
+        </div>
     </div>
-</div>
 
-  </div>
-</div>
-<div id="logoutPopup" class="popup">
-  <div class="popup-content">
-    <div class="checkmark">✔</div>
-    <h2 class="popup-title">Logged Out Successfully</h2>
-  </div>
-</div>
-<!-- DELETE CONFIRMATION POPUP -->
-<div id="deleteConfirmPopup" class="popup">
-  <div class="popup-content">
-    <h2 class="popup-title">Are you sure?</h2>
-    <p class="popup-sub">This item will be permanently deleted.</p>
-
-    <div style="margin-top:20px; display:flex; justify-content:space-between;">
-      <button id="confirmDeleteBtn" style="background:#dc3545; color:white; padding:8px 18px; border:none; border-radius:8px;">Delete</button>
-      <button id="cancelDeleteBtn" style="background:#6c757d; color:white; padding:8px 18px; border:none; border-radius:8px;">Cancel</button>
+    <!-- ═══════════ LOGOUT POPUP ═══════════ -->
+    <div id="logoutPopup" class="popup">
+        <div class="popup-content">
+            <div class="checkmark">✔</div>
+            <h2 class="popup-title">Logged Out Successfully</h2>
+        </div>
     </div>
-  </div>
-</div>
-<!-- DELETE SUCCESS POPUP -->
-<div id="deleteSuccessPopup" class="popup">
-  <div class="popup-content">
-    <div class="checkmark">✔</div>
-    <h2 class="popup-title">Item Deleted Successfully</h2>
-  </div>
-</div>
 
-<div id="addSuccessPopup" class="popup">
-  <div class="popup-content">
-    <div class="checkmark">✔</div>
-    <h2 class="popup-title">Item Added Successfully</h2>
-  </div>
-</div>
+    <!-- ═══════════ DELETE CONFIRM POPUP ═══════════ -->
+    <div id="deleteConfirmPopup" class="popup">
+        <div class="popup-content">
+            <h2 class="popup-title">Are you sure?</h2>
+            <p class="popup-sub">This item will be permanently deleted.</p>
+            <div class="popup-actions">
+                <button type="button" id="confirmDeleteBtn" class="btn-danger">Delete</button>
+                <button type="button" id="cancelDeleteBtn" class="btn-neutral">Cancel</button>
+            </div>
+        </div>
+    </div>
 
-<div id="errorPopup" class="popup">
-  <div class="popup-content error-box">
-    <div class="error-icon">✖</div>
-    <h2 class="popup-title">Wrong Email or Password</h2>
-    <p class="popup-sub">Please try again</p>
-  </div>
-</div>
-<button id="scrollToAddBtn" class="floating-add-btn">+</button>
-<script type="module" src="../assets/js/admin.js"></script>
+    <!-- ═══════════ DELETE SUCCESS POPUP ═══════════ -->
+    <div id="deleteSuccessPopup" class="popup">
+        <div class="popup-content">
+            <div class="checkmark">✔</div>
+            <h2 class="popup-title">Item Deleted Successfully</h2>
+        </div>
+    </div>
+
+    <!-- ═══════════ ADD SUCCESS POPUP ═══════════ -->
+    <div id="addSuccessPopup" class="popup">
+        <div class="popup-content">
+            <div class="checkmark">✔</div>
+            <h2 class="popup-title">Item Added Successfully</h2>
+        </div>
+    </div>
+
+    <!-- ═══════════ ERROR POPUP ═══════════ -->
+    <div id="errorPopup" class="popup">
+        <div class="popup-content error-box">
+            <div class="error-icon">✖</div>
+            <h2 class="popup-title">Wrong Email or Password</h2>
+            <p class="popup-sub">Please try again</p>
+        </div>
+    </div>
+
+    <!-- ═══════════ FLOATING BUTTON ═══════════ -->
+    <button type="button" id="scrollToAddBtn" class="floating-add-btn">+</button>
+
+    <script type="module" src="../assets/js/admin.js"></script>
 </body>
 </html>
