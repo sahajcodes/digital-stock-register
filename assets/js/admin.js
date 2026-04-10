@@ -144,8 +144,16 @@ function loadStock(selectedLab = "All") {
       row.innerHTML = `
         <td>${stock.labName         || "-"}</td>
         <td>${stock.equipmentName   || "-"}</td>
-        <td>${stock.quantity        ?? "-"}</td>
-        <td>${stock.brokenConsumed  ?? "0"}</td>
+        <td>
+         ${stock.itemType === "Consumable" && stock.labName === "Chemistry Lab"
+          ? `${stock.quantity} ml`
+          : stock.quantity ?? "-"}
+        </td>
+        <td>
+         ${stock.itemType === "Consumable" && stock.labName === "Chemistry Lab"
+          ? `${stock.brokenConsumed || 0} ml`
+          : stock.brokenConsumed ?? "0"}
+       </td>
         <td>${stock.billNumber      || "-"}</td>
         <td>${stock.billDate        || "-"}</td>
         <td><span class="${statusClass}">${stock.status || "-"}</span></td>

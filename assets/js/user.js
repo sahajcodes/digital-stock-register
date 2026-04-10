@@ -23,7 +23,11 @@ onSnapshot(collection(db, "stock"), (snapshot) => {
     row.innerHTML = `
       <td>${data.labName || "-"}</td>
       <td>${data.equipmentName || "-"}</td>
-      <td>${data.quantity ?? "-"}</td>
+     <td>
+     ${data.itemType === "Consumable" && data.labName === "Chemistry Lab"
+      ? `${data.quantity} ml`
+      : data.quantity ?? "-"}
+     </td>
       <td>
   ${Number(data.quantity) === 0 
     ? `<span class="status-not">Not Available</span>`
