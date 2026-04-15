@@ -1,29 +1,44 @@
-/* Reset (optional but helps) */
 body {
   margin: 0;
   height: 100vh;
   display: flex;
-  justify-content: center;   /* horizontal center */
-  align-items: center;       /* vertical center */
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  font-family: 'Poppins', sans-serif;
+  justify-content: center;
+  align-items: center;
+
+  /* 🔥 ADMIN PANEL COLOR */
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Apply glass effect to your main container */
+/* Glass container same but slightly upgraded */
 .container {
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-  background: rgba(255, 255, 255, 0.1);
+
+  background: rgba(255, 255, 255, 0.08); /* match admin */
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 30px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-  
-  text-align: center;  /* center text */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  padding: 35px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+
+  text-align: center;
   color: white;
 }
 
-/* If you don't have a container class, apply to body children */
-body > * {
-  text-align: center;
+/* Heading style like admin */
+.container h1 {
+  font-size: 2rem;
+  font-weight: 700;
+
+  background: linear-gradient(135deg, #ffffff, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Subtext */
+.container p {
+  opacity: 0.7;
+  margin-top: 8px;
 }
