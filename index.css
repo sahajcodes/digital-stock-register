@@ -1,44 +1,72 @@
+/* ===== BODY ===== */
 body {
-  margin: 0;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  /* 🔥 ADMIN PANEL COLOR */
-  background: linear-gradient(135deg, #0f172a, #1e293b);
-
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* Slightly brighter + layered gradient */
+  background: linear-gradient(135deg, #020617, #0f172a, #1e293b);
+  overflow: hidden;
 }
 
-/* Glass container same but slightly upgraded */
+/* ===== CONTAINER ===== */
 .container {
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  position: relative;
 
-  background: rgba(255, 255, 255, 0.08); /* match admin */
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 
-  padding: 35px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  /* 🔥 thoda zyada visible glass */
+  background: rgba(255, 255, 255, 0.10);
 
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  padding: 40px 50px;
   text-align: center;
-  color: white;
+
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(59, 130, 246, 0.25);
+
+  animation: fadeIn 0.8s ease, float 4s ease-in-out infinite;
 }
 
-/* Heading style like admin */
+/* ===== TITLE ===== */
 .container h1 {
-  font-size: 2rem;
+  font-size: 2.3rem;
   font-weight: 700;
 
-  background: linear-gradient(135deg, #ffffff, #94a3b8);
-
+  /* 🔥 brighter gradient */
+  background: linear-gradient(135deg, #ffffff, #cbd5f5);
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+
+  letter-spacing: 0.5px;
 }
 
-/* Subtext */
+/* ===== SUBTEXT ===== */
 .container p {
-  opacity: 0.7;
-  margin-top: 8px;
+  margin-top: 10px;
+  font-size: 1rem;
+
+  /* 🔥 more visible */
+  color: rgba(255, 255, 255, 0.75);
+
+  letter-spacing: 0.3px;
+}
+
+/* ===== GLOW BORDER ===== */
+.container::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 22px;
+
+  background: linear-gradient(135deg, #3b82f6, transparent, #60a5fa);
+
+  opacity: 0.35;
+  filter: blur(18px);
+  z-index: -1;
 }
